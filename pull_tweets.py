@@ -55,14 +55,14 @@ def get_retweeted_tweets(user_handle):
 	return 
 
 
-"Get users who like specified tweet."
-def get_users_who_like_tweet(tweet):
+"Get num_users users who like specified tweet."
+def get_users_who_like_tweet(tweet, num_users):
 	return
 
 
-"Get users who retweeted specified tweet."
-def get_users_who_retweeted_tweet(tweet):
-	return
+"Get num_retweeters users who retweeted specified tweet (tweet object)."
+def get_users_who_retweeted_tweet(tweet, num_retweeters):
+	return api.GetRetweeters(tweet.id, count=num_retweeters)
 
 
 "Get tweets from user given user_handle."
