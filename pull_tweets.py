@@ -30,51 +30,75 @@ from __future__ import print_function
 import twitter
 from secret import *
 
-# Create an Api instance.
-api = twitter.Api(consumer_key=CONSUMER_KEY,
-                  consumer_secret=CONSUMER_SECRET,
-                  access_token_key=ACCESS_TOKEN,
-                  access_token_secret=ACCESS_TOKEN_SECRET)
+
+class TwitterApiWrapper:
+
+	def __init__(self):
+		# Create an Api instance.
+		self.api = twitter.Api(consumer_key=CONSUMER_KEY,
+		                  consumer_secret=CONSUMER_SECRET,
+		                  access_token_key=ACCESS_TOKEN,
+		                  access_token_secret=ACCESS_TOKEN_SECRET)
+
+
+	"Returns a list of tweets liked by user specified by user_name."
+	def get_liked_tweets(self, user_handle):
+		return self.api.GetFavorites(screen_name=user_handle)
+
+
+	"Get up to 100 retweets of tweet."
+	def get_retweeted_tweets(self, tweet):
+		return self.api.GetRetweets(tweet.id)
+
+
+
+	"Get num_retweeters users who retweeted specified tweet (tweet object)."
+	def get_users_who_retweeted_tweet(self, tweet, num_retweeters):
+		return self.api.GetRetweeters(tweet.id, count=num_retweeters)
+
+
+	"Get tweets from user given user_handle."
+	def get_tweets(self, user_handle):
+		return self.api.GetUserTimeline(self, screen_name=user_handle)
+
+
+	"Get list of followers (twitter.User instances) for user_handle."
+	def get_followers(self, user_handle):
+		return self.api.GetFollowers(screen_name=user_handle)
+
+
+
 
 
 "Prints all arguments, each separated by a newline."
 def print_stuff(*args):
 	for arg in args:
 		print(arg)
-	print("\n")
 
 
-
-"Returns a list of tweets liked by user specified by user_name."
-def get_liked_tweets(user_handle):
-	return api.GetFavorites(screen_name=user_handle)
-
-
-"Get tweets retweeted by user specified by user_screen_name."
-def get_retweeted_tweets(user_handle):
-	return 
-
-
-"Get num_users users who like specified tweet."
-def get_users_who_like_tweet(tweet, num_users):
-	return
-
-
-"Get num_retweeters users who retweeted specified tweet (tweet object)."
-def get_users_who_retweeted_tweet(tweet, num_retweeters):
-	return api.GetRetweeters(tweet.id, count=num_retweeters)
-
-
-"Get tweets from user given user_handle."
-def get_tweets(user_handle):
-	return
-
+INITIAL_STATES = ["wojespn",
+	"zachlowe_nba",
+	"WindhorstESPN",
+	"ShamsCharania",
+	"daldridgetnt",
+	"ChrisBHaynes",
+	"TheSteinLine",
+	"Rachel__Nichols",
+	"ChrisMannixYS",
+	"MarcJSpearsESPN",
+	"ramonashelburne"	
+]
 
 
 if __name__ == '__main__':
 
-	woj_favorites = get_liked_tweets("wojespn")
-	tweet_number = 1
-	for liked_tweet in woj_favorites:
-		print_stuff(tweet_number, liked_tweet.user.name, liked_tweet.created_at, liked_tweet.text)
-		tweet_number += 1
+	taw = TwitterApiWrapper()
+
+	"""
+	for reporter_handle in INITIAL_STATES:
+		temp_followers = taw.get_followers(reporter_handle)
+		print("{}: {}".format(reporter_handle, len(temp_followers)))
+	"""
+	temp_followers = taw.get_followers(INITIAL_STATES[0])
+	print("{}: {}".format(INITIAL_STATES[0], len(temp_followers)))
+
