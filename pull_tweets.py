@@ -28,12 +28,7 @@
 
 from __future__ import print_function
 import twitter
-
-CONSUMER_KEY = 'MbrzeGFih0rv9yuMbnjXl53oW'
-CONSUMER_SECRET = 'SbQFvKkDlijxKR0Jufmj6Bbq3l9RjPscJ49Y8LHwSOQGpNUfDc'
-ACCESS_TOKEN = '877336882190757890-5p0SVsQ55FSSVG6xIYndrFQpckU9JSy'
-ACCESS_TOKEN_SECRET = '3eK153LIS7BOOWTQRRMfbyE99UQMuOMRxxFN8iuopmeGy'
-
+from secret import *
 
 # Create an Api instance.
 api = twitter.Api(consumer_key=CONSUMER_KEY,
@@ -41,12 +36,45 @@ api = twitter.Api(consumer_key=CONSUMER_KEY,
                   access_token_key=ACCESS_TOKEN,
                   access_token_secret=ACCESS_TOKEN_SECRET)
 
-woj_favorites = api.GetFavorites(screen_name='wojespn')
+
+"Prints all arguments, each separated by a newline."
+def print_stuff(*args):
+	for arg in args:
+		print(arg)
+	print("\n")
+
+
+
+"Returns a list of tweets liked by user specified by user_name."
+def get_liked_tweets(user_handle):
+	return api.GetFavorites(screen_name=user_handle)
+
+
+"Get tweets retweeted by user specified by user_screen_name."
+def get_retweeted_tweets(user_handle):
+	return 
+
+
+"Get users who like specified tweet."
+def get_users_who_like_tweet(tweet):
+	return
+
+
+"Get users who retweeted specified tweet."
+def get_users_who_retweeted_tweet(tweet):
+	return
+
+
+"Get tweets from user given user_handle."
+def get_tweets(user_handle):
+	return
+
+
 
 if __name__ == '__main__':
+
+	woj_favorites = get_liked_tweets("wojespn")
 	tweet_number = 1
 	for liked_tweet in woj_favorites:
-		print("Tweet {}:\n".format(tweet_number))
-		print(liked_tweet)
-		print("\n")
+		print_stuff(tweet_number, liked_tweet.user.name, liked_tweet.created_at, liked_tweet.text)
 		tweet_number += 1
